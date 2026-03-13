@@ -12,7 +12,6 @@ st.markdown("Live incident queue powered by asynchronous Webhooks and MobileNetV
 LOG_FILE = "dispatch_log.json"
 LOCK_FILE = "dispatch_log.json.lock"
 
-# --- Secure File Operations ---
 def load_data():
     if not os.path.exists(LOG_FILE) or os.path.getsize(LOG_FILE) == 0:
         return []
@@ -36,12 +35,10 @@ def mark_dispatched(incident_id):
     save_data(data)
     st.toast(f"Unit dispatched for {incident_id}!", icon="✅")
 
-# --- Process Data ---
 logs = load_data()
 active_logs = [log for log in logs if log.get('status') != 'dispatched']
 history_logs = [log for log in logs if log.get('status') == 'dispatched']
 
-# --- Analytics Dashboard ---
 col1, col2, col3 = st.columns(3)
 critical_count = sum(1 for log in active_logs if log.get('priority_level') == 'Critical')
 safe_count = sum(1 for log in active_logs if log.get('priority_level') == 'Safe')
@@ -55,7 +52,6 @@ with col3:
     
 st.divider()
 
-# --- Tabbed Interface ---
 tab1, tab2 = st.tabs(["🚨 Active Triage Queue", "🗄️ Incident History"])
 
 with tab1:
@@ -88,14 +84,14 @@ with tab2:
     if not history_logs:
         st.write("No historical data available yet.")
     else:
-        # Create a clean DataFrame for the historical audit log
+        
         history_df = pd.DataFrame(history_logs)
         history_df = history_df.rename(columns={
             "incident_id": "Incident ID",
             "priority_level": "Priority Level",
             "status": "Final Status"
         })
-        # Rearrange columns to put ID first
+
         cols = ["Incident ID", "Priority Level", "Final Status"]
         if "critical_confidence" in history_df.columns:
             history_df = history_df.rename(columns={"critical_confidence": "AI Confidence"})

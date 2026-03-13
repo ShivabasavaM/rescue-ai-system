@@ -4,23 +4,19 @@ from PIL import Image
 
 st.set_page_config(page_title="Citizen Rescue Portal", page_icon="🐾", layout="centered")
 
-# --- Hero Section ---
 st.title("🐾 Community Rescue Portal")
 st.markdown("### Help us save lives. Report an animal in distress.")
 st.info("Upload a photo of the stray animal. Our AI will instantly assess the severity and alert the nearest rescue team in the area.", icon="ℹ️")
 
 st.divider()
 
-# --- Upload Interface ---
 uploaded_file = st.file_uploader("Capture or upload an image (JPG/PNG)", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
-    # Use columns to put the image on the left and the controls on the right
     col1, col2 = st.columns([1.2, 1], gap="large")
     
     with col1:
         st.markdown("**Image Preview**")
-        # Show the image so the user knows what they are submitting
         st.image(uploaded_file, use_container_width=True)
         
     with col2:
@@ -37,8 +33,6 @@ if uploaded_file is not None:
                     if response.status_code == 200:
                         data = response.json()
                         st.success("Report transmitted to Central Dispatch!", icon="✅")
-                        
-                        # Use elegant metrics instead of plain text
                         st.metric(label="System Classification", value=data['priority'], delta=f"AI Confidence: {data['confidence']}")
                         st.code(f"Live Tracking ID: {data['incident_id']}")
                         
