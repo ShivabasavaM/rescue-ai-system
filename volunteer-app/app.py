@@ -13,6 +13,10 @@ st.title("Central Dispatch | Volunteers Triage System Dashboard")
 st.warning("⚠️ **NOTICE:** This dashboard is a technical demonstration. All data, AI classifications, and dispatch actions are strictly simulated.")
 st.markdown("Live Incident Queue is displayed, please reach and rescue the Paws | Save lives")
 
+if "dispatch_success" in st.session_state:
+    st.toast(st.session_state.dispatch_success, icon="🚀")
+    del st.session_state.dispatch_success
+
 st.divider()
 
 def fetch_incidents() -> list[dict]:
@@ -131,7 +135,6 @@ with tab1:
                             success = dispatch_incident(inc_id)
                         if success:
                             st.success(f"Volunteer assigned to {inc_id}!")
-                            time.sleep(1)
                             st.rerun()
 
 
