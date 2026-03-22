@@ -10,7 +10,7 @@ REFRESH_INTERVAL = int(os.getenv("REFRESH_INTERVAL","30"))
 st.set_page_config(page_title="Rescue Dispatch", page_icon="🏥", layout="wide")
 
 st.title("Central Dispatch | Volunteers Triage System Dashboard")
-st.warning("⚠️ **NOTICE:** This portal is a technical demonstration for a portfolio project. It is NOT connected to real emergency services. Please do not submit actual emergencies here.")
+st.warning("⚠️ **NOTICE:** This dashboard is a technical demonstration. All data, AI classifications, and dispatch actions are strictly simulated.")
 st.markdown("Live Incident Queue is displayed, please reach and rescue the Paws | Save lives")
 
 st.divider()
