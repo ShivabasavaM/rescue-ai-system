@@ -7,6 +7,7 @@ BACKEND_URL = st.secrets.get("BACKEND_URL") or os.getenv("BACKEND_URL","http://1
 st.set_page_config(page_title="Citizen Dogs Rescue Portal", page_icon="🐾", layout="centered")
 
 st.title("🐾 Community Dogs Rescue Portal")
+st.warning("⚠️ **NOTICE:** This portal is a technical demonstration for a portfolio project. It is NOT connected to real emergency services. Please do not submit actual emergencies here.")
 st.markdown("<h4 style='text-align: center;'>Report a Dog in Distress -- Help and Save Lives</h4>", 
     unsafe_allow_html=True)
 st.info("Upload the Dogs Picture, Our AI will report the Volunteers based on the Status")
