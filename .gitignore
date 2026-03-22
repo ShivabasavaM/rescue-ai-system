@@ -1,0 +1,21 @@
+# Virtual Environments (Blocks all venv/cenv folders anywhere in the project)
+venv/
+cenv/
+env/
+*/venv/
+*/cenv/
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# Databases
+*.db
+*.sqlite3
+
+# Secrets and Environment Variables
+.env
+**/.streamlit/secrets.toml
+
+# Mac OS junk files
+.DS_Store
