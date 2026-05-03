@@ -1,90 +1,67 @@
 # 🐾 Rescue AI: Cloud-Native Incident Response System
 
-A scalable, real-time AI-powered surveillance and triage platform designed for **animal welfare and rescue operations**.
+## Problem
+In emergency situations involving stray or wild animals, traditional manual triage is slow and inefficient. Most citizen reporting tools rely on polling (constantly refreshing for updates), which introduces high latency and delays critical responses. This project solves the problem of slow emergency allocation by utilizing an event-driven architecture that automatically processes, classifies, and dispatches critical distress cases in real time.
 
-This system follows a **microservices architecture** with a **webhook-driven workflow**, where citizen reports automatically trigger AI classification and volunteer dispatch.
+## Approach
+- **Model:** Fine-tuned `PyTorch MobileNetV3` image classification architecture, optimized for lightweight, low-latency CPU inference via transfer learning on a custom dataset.
+- **Pipeline:** An end-to-end event-driven microservices pipeline running on decoupled architecture components.
+- **Why this approach:** Using an event-driven POST request ensures the server only processes data when an incident occurs, saving compute and memory while enabling rapid processing within strict hardware limitations (1GB RAM on AWS Free Tier).
 
----
+## Architecture
 
-## 🚀 Live Deployment
 
-- 🔗 **Citizen Reporting Portal**  
-  https://citizen-app.streamlit.app/  
-  *Submit incidents with images*
+## Results
+- **Metrics:** Achieved an **88.7% accuracy** on the test dataset utilizing data augmentation and transfer learning.
+- **Observations:** The model maintains a sub-second inference time and low memory footprint by disabling gradient computations via `torch.no_grad()`.
 
-- 🔗 **Volunteer Dispatch Dashboard**  
-  https://volunteer-dashboard.streamlit.app/  
-  *Monitor and respond to incidents in real time*
+## Tradeoffs
+- **What you optimized for:** Optimized for **low memory usage** and **high availability** within resource-constrained environments, utilizing a rolling window of 15 records in SQLite to conserve storage.
 
-- 🧠 **AI Inference Engine**  
-  Hosted on AWS EC2 (Ubuntu)
+## Failures / Learnings
+- **What didn't work:** Attempting to load heavy models like ResNet resulted in out-of-memory (OOM) failures on the `t3.micro` instance. 
+- **Learnings:** Employing MobileNetV3 and configuring 2GB of Linux Swap memory stabilized the system. Understanding the practical differences between polling and push-based/event-driven requests led to a more reliable network design.
 
----
+## Demo
+- **[Citizen Reporting Portal](https://citizen-app.streamlit.app/)**
+- **[Volunteer Dispatch Dashboard](https://volunteer-dashboard.streamlit.app/)**
 
-## 🏗️ Architecture Overview
+## Manim Explanation 🎥
+- **[Video Link]:** Animation explaining the event-driven workflow (Webhooks vs. Polling).
 
-The system is designed as a **decoupled, scalable ecosystem**:
+## How to Run
 
-### 1. Citizen App (Frontend)
-- Built with Streamlit
-- Captures incident details + images
-- Sends data via **POST requests** to backend
-
-### 2. AI Backend (Core Engine)
-- Built with FastAPI (Uvicorn)
-- Deployed on AWS EC2
-- Uses **MobileNetV3 (PyTorch)** for real-time image classification
-- Outputs:
-  - `Critical` 🚨
-  - `Safe` ✅
-
-### 3. Volunteer Dashboard (Frontend)
-- Real-time monitoring UI
-- Fetches processed incidents from database
-- Enables **one-click dispatch**
-
----
-
-## 🛠️ Tech Stack
-
-| Category        | Technologies |
-|----------------|-------------|
-| Language       | Python 3.12 |
-| AI/ML          | PyTorch, Torchvision (MobileNetV3) |
-| Backend        | FastAPI, Uvicorn, SQLite |
-| Frontend       | Streamlit |
-| Cloud/DevOps   | AWS EC2 (Ubuntu), Streamlit Cloud |
-| Networking     | REST APIs, AWS Security Groups |
-| Repo Structure | Monorepo (GitHub) |
-
----
-
-## ⚙️ Local Setup
-
-Follow these steps to run the full system locally:
-
-### 1️⃣ Clone Repository
+### 1. Clone the Repository
 ```bash
-git clone https://github.com/ShivabasavaM/rescue-ai-system.git
+git clone [https://github.com/ShivabasavaM/rescue-ai-system.git](https://github.com/ShivabasavaM/rescue-ai-system.git)
 cd rescue-ai-system
-
-### 2️⃣ Start AI Backend
+```
+### 2. Start the AI Backend
+```
 cd model
 python3 -m venv venv
-source venv/bin/activate      # Windows: venv\Scripts\activate
+source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-python -m uvicorn main:app --reload --port 8000
+python -m uvicorn main:app --reload --port 8000 
+```
 
-### 3️⃣ Start Citizen App (New Terminal)
+### 3. Start the Citizen App
+### Open a new terminal:
+```
 cd citizen-app
 python3 -m venv cenv
 source cenv/bin/activate
 pip install -r requirements.txt
 streamlit run app.py
+```
 
-### 4️⃣ Start Volunteer Dashboard (New Terminal)
+### 4. Start the Volunteer Dashboard
+## Open a third terminal:
+
+```
 cd volunteer-app
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-streamlit run app.py
+streamlit run app.py 
+```
