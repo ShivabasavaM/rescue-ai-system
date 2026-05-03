@@ -1,4 +1,4 @@
-# 🐾 Rescue AI: Cloud-Native Incident Response System
+# 🐾 Rescue AI: Cloud-Native Triage System
 
 ## Problem
 In emergency situations involving stray or wild animals, traditional manual triage is slow and inefficient. Most citizen reporting tools rely on polling (constantly refreshing for updates), which introduces high latency and delays critical responses. This project solves the problem of slow emergency allocation by utilizing an event-driven architecture that automatically processes, classifies, and dispatches critical distress cases in real time.
