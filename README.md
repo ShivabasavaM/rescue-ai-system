@@ -28,8 +28,8 @@ In emergency situations involving stray or wild animals, traditional manual tria
 
 ## Manim Explanation 🎥
 - ** Animation explaining the event-driven workflow. **
-- 
-https://github.com/user-attachments/assets/4909bda1-861c-42de-a5e6-a79461ea829a
+
+https://github.com/user-attachments/assets/58e1ee36-7c73-4c5b-80a4-7e7975e882ab
 
 ## How to Run
 
