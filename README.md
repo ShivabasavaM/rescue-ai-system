@@ -27,7 +27,9 @@ In emergency situations involving stray or wild animals, traditional manual tria
 - **[Volunteer Dispatch Dashboard](https://volunteer-dashboard.streamlit.app/)**
 
 ## Manim Explanation 🎥
-- **[Video Link]:** Animation explaining the event-driven workflow (Webhooks vs. Polling).
+- ** Animation explaining the event-driven workflow. **
+- 
+https://github.com/user-attachments/assets/4909bda1-861c-42de-a5e6-a79461ea829a
 
 ## How to Run
 
