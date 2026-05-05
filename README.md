@@ -9,7 +9,42 @@ In emergency situations involving stray or wild animals, traditional manual tria
 - **Why this approach:** Using an event-driven POST request ensures the server only processes data when an incident occurs, saving compute and memory while enabling rapid processing within strict hardware limitations (1GB RAM on AWS Free Tier).
 
 ## Architecture
+graph TD
+    %% Styling Definitions
+    classDef client fill:#1e3a8a,stroke:#60a5fa,stroke-width:2px,color:#fff,rx:5px,ry:5px;
+    classDef server fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#fff,rx:5px,ry:5px;
+    classDef external fill:#1f2937,stroke:#9ca3af,stroke-width:2px,color:#fff,rx:5px,ry:5px;
+    classDef db fill:#4c1d95,stroke:#a78bfa,stroke-width:2px,color:#fff,rx:15px,ry:15px;
 
+    subgraph ClientLayer ["Client Layer"]
+        UI["React / Vite UI<br/>(Vercel)"]:::client
+    end
+
+    subgraph ApplicationLayer ["Application Server Layer"]
+        API["FastAPI Orchestrator<br/>(Render)"]:::server
+        Threads["Parallel ThreadPool<br/>(8-Pillar Agentic Reasoning)"]:::server
+        Buffer["io.BytesIO<br/>(.docx Memory Stream)"]:::server
+    end
+
+    subgraph InfrastructureLayer ["External AI & Data Infrastructure"]
+        Llama["LlamaParse API<br/>(Document Extraction)"]:::external
+        Gemini["Gemini 2.5 Flash<br/>(LLM & Embeddings)"]:::external
+        Pinecone[("Pinecone Vector DB<br/>(Ephemeral Namespaces)")]:::db
+    end
+
+    %% Data Flow
+    UI -- "1. Upload PDFs & Query" --> API
+    
+    API -- "2. Raw Documents" --> Llama
+    Llama -- "3. Parsed Markdown" --> Gemini
+    Gemini -- "4. Vector Embeddings" --> Pinecone
+    
+    API -- "5. Trigger Gap Analysis" --> Threads
+    Threads <-->| "6. Context Retrieval" | Pinecone
+    Threads <-->| "7. Verification Loop" | Gemini
+    
+    Threads -- "8. Audit Findings" --> Buffer
+    Buffer -- "9. Stream Report" --> UI
 
 ## Results
 - **Metrics:** Achieved an **88.7% accuracy** on the test dataset utilizing data augmentation and transfer learning.
